@@ -1,0 +1,3 @@
+import Link from "next/link";
+const links = [["Stay", "/rooms"], ["Experiences", "/experiences"], ["Our story", "/about"], ["Explore Malvan", "/location"], ["Contact", "/contact"]];
+export function SiteHeader() { return <header className="site-header"><div className="shell header-inner"><Link className="brand" href="/">Meridian <span style={{color:"var(--accent)"}}>Malvan</span><small>A considered coastal stay</small></Link><nav className="nav" aria-label="Main navigation">{links.map(([label,href])=><Link key={href} href={href}>{label}</Link>)}<Link className="button" href="/contact">Enquire</Link></nav></div></header>; }

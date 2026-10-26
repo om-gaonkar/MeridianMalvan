@@ -1,0 +1,1 @@
+export const site = { name: "Meridian Malvan", description: "A considered coastal stay in Malvan, Maharashtra. Discover the Konkan coast, local food, and unhurried days by the sea.", url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com", locality: "Malvan", region: "Maharashtra", phone: "", email: "", address: "" } as const;
