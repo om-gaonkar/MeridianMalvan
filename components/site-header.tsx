@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const links = [
@@ -14,15 +15,20 @@ const links = [
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   function closeMenu() {
     setMenuOpen(false);
   }
 
+  function isActive(href: string) {
+    return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
+  }
+
   return (
     <header className="site-header">
       <div className="shell header-inner">
-        <Link className="brand" href="/" onClick={closeMenu} aria-label="Meridian Malvan home">
+        <Link className={`brand${pathname === "/" ? " brand-active" : ""}`} href="/" onClick={closeMenu} aria-label="Meridian Malvan home" aria-current={pathname === "/" ? "page" : undefined}>
           <span className="brand-mark" aria-hidden="true">M.</span>
           <span className="brand-copy">
             <span className="brand-name">Meridian <span>Malvan</span></span>
@@ -42,16 +48,15 @@ export function SiteHeader() {
           <span />
         </button>
 
-        <nav
-          id="primary-navigation"
-          className={`nav${menuOpen ? " is-open" : ""}`}
-          aria-label="Main navigation"
-        >
-          {links.map(([label, href]) => (
-            <Link key={href} href={href} onClick={closeMenu}>
-              {label}
-            </Link>
-          ))}
+        <nav id="primary-navigation" className={`nav${menuOpen ? " is-open" : ""}`} aria-label="Main navigation">
+          {links.map(([label, href]) => {
+            const active = isActive(href);
+            return (
+              <Link key={href} href={href} onClick={closeMenu} className={active ? "active" : undefined} aria-current={active ? "page" : undefined}>
+                {label}
+              </Link>
+            );
+          })}
           <Link className="button nav-cta" href="/contact" onClick={closeMenu}>
             Plan your stay <span aria-hidden="true">↗</span>
           </Link>
